@@ -1,4 +1,3 @@
-# newsletter/views.py
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import (
     ListView, DetailView, CreateView, UpdateView, DeleteView, FormView
@@ -93,3 +92,87 @@ class MailingSendView(FormView):
         mailing.status = 'STARTED'
         mailing.save()
         return redirect('mailing_detail', pk=mailing.pk)
+
+# Список клиентов
+class ClientListView(ListView):
+    model = Client
+    template_name = 'newsletter/client_list.html'
+    context_object_name = 'clients'
+
+# Детальное представление клиента
+class ClientDetailView(DetailView):
+    model = Client
+    template_name = 'newsletter/client_detail.html'
+    context_object_name = 'client'
+
+# Создание клиента
+class ClientCreateView(CreateView):
+    model = Client
+    form_class = ClientForm
+    template_name = 'newsletter/client_form.html'
+    success_url = reverse_lazy('client_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form_title'] = 'Добавить клиента'
+        return context
+
+# Редактирование клиента
+class ClientUpdateView(UpdateView):
+    model = Client
+    form_class = ClientForm
+    template_name = 'newsletter/client_form.html'
+    success_url = reverse_lazy('client_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form_title'] = 'Редактировать клиента'
+        return context
+
+# Удаление клиента
+class ClientDeleteView(DeleteView):
+    model = Client
+    template_name = 'newsletter/confirm_delete.html'
+    success_url = reverse_lazy('client_list')
+
+# Список сообщений
+class MessageListView(ListView):
+    model = Message
+    template_name = 'newsletter/message_list.html'
+    context_object_name = 'messages'
+
+# Детальное представление сообщения
+class MessageDetailView(DetailView):
+    model = Message
+    template_name = 'newsletter/message_detail.html'
+    context_object_name = 'message'
+
+# Создание сообщения
+class MessageCreateView(CreateView):
+    model = Message
+    form_class = MessageForm
+    template_name = 'newsletter/message_form.html'
+    success_url = reverse_lazy('message_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form_title'] = 'Добавить сообщение'
+        return context
+
+# Редактирование сообщения
+class MessageUpdateView(UpdateView):
+    model = Message
+    form_class = MessageForm
+    template_name = 'newsletter/message_form.html'
+    success_url = reverse_lazy('message_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form_title'] = 'Редактировать сообщение'
+        return context
+
+# Удаление сообщения
+class MessageDeleteView(DeleteView):
+    model = Message
+    template_name = 'newsletter/confirm_delete.html'
+    success_url = reverse_lazy('message_list')
