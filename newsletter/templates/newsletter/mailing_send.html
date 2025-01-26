@@ -1,0 +1,15 @@
+{% extends 'newsletter/base.html' %}
+
+{% block title %}Отправка рассылки{% endblock %}
+
+{% block content %}
+<header>
+    <h1>Отправка рассылки {{ mailing.id }}</h1>
+    <a href="{% url 'mailing_detail' mailing.id %}" class="btn btn-secondary mb-3">Назад к рассылке</a>
+</header>
+<form method="post">
+    {% csrf_token %}
+    <p>Вы уверены, что хотите отправить рассылку?</p>
+    <button type="submit" class="btn btn-success">Отправить</button>
+</form>
+{% endblock %}
