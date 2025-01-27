@@ -6,6 +6,7 @@ from django.views.generic import (
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from .models import CustomUser
 
+
 # Регистрация пользователя
 class SignUpView(CreateView):
     form_class = CustomUserCreationForm
