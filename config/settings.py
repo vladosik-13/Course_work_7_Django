@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "newsletter",
+    "users",
 ]
 
 MIDDLEWARE = [
@@ -144,3 +145,5 @@ EMAIL_USE_SSL = True
 EMAIL_HOST_USER = "testvlad59@yandex.ru"
 EMAIL_HOST_PASSWORD = "fjgjhzlvvypiuzhk"
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+AUTH_USER_MODEL = 'users.CustomUser'
