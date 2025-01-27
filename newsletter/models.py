@@ -15,7 +15,7 @@ class Client(models.Model):
         verbose_name = 'Клиент'
         verbose_name_plural = 'Клиенты'
         permissions = [
-            ('view_client', 'Просматривать всех клиентов'),
+            ('view_all_clients', 'Просматривать всех клиентов'),
         ]
 
 class Message(models.Model):
@@ -29,7 +29,7 @@ class Message(models.Model):
         verbose_name = 'Сообщение'
         verbose_name_plural = 'Сообщения'
         permissions = [
-            ('view_message', 'Просматривать все сообщения'),
+            ('view_all_messages', 'Просматривать все сообщения'),
         ]
 
 class Mailing(models.Model):

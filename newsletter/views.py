@@ -9,7 +9,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Client, Message, Mailing, MailingAttempt
 from .forms import ClientForm, MessageForm, MailingForm
 
-
 # Проверка владельца рассылки
 class OwnerRequiredMixin(UserPassesTestMixin):
     def test_func(self):
