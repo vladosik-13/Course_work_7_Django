@@ -1,0 +1,45 @@
+{% extends 'newsletter/base.html' %}
+
+{% block title %}Профиль{% endblock %}
+
+{% block content %}
+<header>
+    <h1>Профиль пользователя</h1>
+</header>
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Имя пользователя</h5>
+        <p class="card-text">{{ user_profile.username }}</p>
+    </div>
+</div>
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Email</h5>
+        <p class="card-text">{{ user_profile.email }}</p>
+    </div>
+</div>
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Аватар</h5>
+        {% if user_profile.avatar %}
+            <img src="{{ user_profile.avatar.url }}" alt="Аватар" class="img-fluid">
+        {% else %}
+            <p>Аватар не установлен</p>
+        {% endif %}
+    </div>
+</div>
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Номер телефона</h5>
+        <p class="card-text">{{ user_profile.phone_number }}</p>
+    </div>
+</div>
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Страна</h5>
+        <p class="card-text">{{ user_profile.country }}</p>
+    </div>
+</div>
+<a href="{% url 'profile_edit' %}" class="btn btn-warning mb-3">Редактировать профиль</a>
+<a href="{% url 'logout' %}" class="btn btn-danger mb-3">Выход</a>
+{% endblock %}
