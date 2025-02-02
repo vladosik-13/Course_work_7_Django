@@ -1,6 +1,7 @@
 from django import forms
 from .models import Client, Message, Mailing
 
+
 class ClientForm(forms.ModelForm):
     class Meta:
         model = Client
@@ -23,6 +24,7 @@ class ClientForm(forms.ModelForm):
 
         self.fields["owner"].widget.attrs.update({"class": "form-control"})
 
+
 class MessageForm(forms.ModelForm):
     class Meta:
         model = Message
@@ -40,6 +42,7 @@ class MessageForm(forms.ModelForm):
         )
 
         self.fields["owner"].widget.attrs.update({"class": "form-control"})
+
 
 class MailingForm(forms.ModelForm):
     class Meta:

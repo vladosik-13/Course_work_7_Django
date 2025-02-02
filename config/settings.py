@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 import os
 
-from django.conf.global_settings import LOGIN_URL
+
 from dotenv import load_dotenv
 from pathlib import Path
 
@@ -148,15 +148,13 @@ EMAIL_HOST_USER = "testvlad59@yandex.ru"
 EMAIL_HOST_PASSWORD = "fjgjhzlvvypiuzhk"
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-AUTH_USER_MODEL = 'users.CustomUser'
+AUTH_USER_MODEL = "users.CustomUser"
 
-LOGIN_URL = 'users:login'
-
-from django.core.cache.backends.redis import RedisCache
+LOGIN_URL = "users:login"
 
 CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-        'LOCATION': 'redis://localhost:6379/1',
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://localhost:6379/1",
     }
 }
