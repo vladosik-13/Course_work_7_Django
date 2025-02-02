@@ -8,6 +8,10 @@ from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Client, Message, Mailing, MailingAttempt
 from .forms import ClientForm, MessageForm, MailingForm
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
+from django.core.cache import cache
+
 
 # Проверка владельца рассылки
 class OwnerRequiredMixin(UserPassesTestMixin):
@@ -16,6 +20,7 @@ class OwnerRequiredMixin(UserPassesTestMixin):
         return obj.owner == self.request.user or self.request.user.has_perm('newsletter.view_all_mailings')
 
 # Главная страница
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class HomeView(LoginRequiredMixin, ListView):
     template_name = 'newsletter/home.html'
     context_object_name = 'mailings'
@@ -38,6 +43,7 @@ class HomeView(LoginRequiredMixin, ListView):
         return context
 
 # Список рассылок
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class MailingListView(LoginRequiredMixin, ListView):
     model = Mailing
     template_name = 'newsletter/mailing_list.html'
@@ -53,6 +59,13 @@ class MailingDetailView(LoginRequiredMixin, OwnerRequiredMixin, DetailView):
     model = Mailing
     template_name = 'newsletter/mailing_detail.html'
     context_object_name = 'mailing'
+
+    def get_queryset(self):
+        queryset = cache.get_mailings('mailing_queryset')
+        if not queryset:
+            queryset = super().get_queryset()
+            cache.set('mailing_queryset', queryset, 60 * 15)
+        return queryset
 
 # Создание рассылки
 class MailingCreateView(LoginRequiredMixin, CreateView):
@@ -117,6 +130,7 @@ class MailingSendView(LoginRequiredMixin, OwnerRequiredMixin, FormView):
         return redirect('mailing_detail', pk=mailing.pk)
 
 # Список клиентов
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class ClientListView(LoginRequiredMixin, ListView):
     model = Client
     template_name = 'newsletter/client_list.html'
@@ -128,6 +142,7 @@ class ClientListView(LoginRequiredMixin, ListView):
         return Client.objects.filter(mailings__owner=self.request.user).distinct()
 
 # Детальное представление клиента
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class ClientDetailView(LoginRequiredMixin, OwnerRequiredMixin, DetailView):
     model = Client
     template_name = 'newsletter/client_detail.html'
@@ -168,6 +183,7 @@ class ClientDeleteView(LoginRequiredMixin, OwnerRequiredMixin, DeleteView):
     success_url = reverse_lazy('client_list')
 
 # Список сообщений
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class MessageListView(LoginRequiredMixin, ListView):
     model = Message
     template_name = 'newsletter/message_list.html'
@@ -179,6 +195,7 @@ class MessageListView(LoginRequiredMixin, ListView):
         return Message.objects.filter(mailings__owner=self.request.user).distinct()
 
 # Детальное представление сообщения
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class MessageDetailView(LoginRequiredMixin, OwnerRequiredMixin, DetailView):
     model = Message
     template_name = 'newsletter/message_detail.html'
@@ -237,7 +254,7 @@ class MailingReportView(LoginRequiredMixin, ListView):
         context['failed_attempts'] = attempts.filter(success=False).count()
         return context
 
-
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class MailingAttemptListView(LoginRequiredMixin, ListView):
     model = MailingAttempt
     template_name = 'newsletter/mailing_attempt_list.html'
