@@ -140,6 +140,10 @@ class ClientCreateView(LoginRequiredMixin, CreateView):
     template_name = 'newsletter/client_form.html'
     success_url = reverse_lazy('client_list')
 
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form_title'] = 'Добавить клиента'
@@ -232,3 +236,14 @@ class MailingReportView(LoginRequiredMixin, ListView):
         context['successful_attempts'] = attempts.filter(success=True).count()
         context['failed_attempts'] = attempts.filter(success=False).count()
         return context
+
+
+class MailingAttemptListView(LoginRequiredMixin, ListView):
+    model = MailingAttempt
+    template_name = 'newsletter/mailing_attempt_list.html'
+    context_object_name = 'attempts'
+
+    def get_queryset(self):
+        if self.request.user.has_perm('newsletter.view_all_mailings'):
+            return MailingAttempt.objects.all()
+        return MailingAttempt.objects.filter(mailing__owner=self.request.user)

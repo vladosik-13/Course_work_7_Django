@@ -1,0 +1,36 @@
+{% extends 'newsletter/base.html' %}
+
+{% block title %}Попытки рассылок{% endblock %}
+
+{% block content %}
+<header>
+    <h1>Попытки рассылок</h1>
+    <a href="{% url 'home' %}" class="btn btn-secondary mb-3">Назад к главной</a>
+</header>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Рассылка</th>
+            <th>Дата и время попытки</th>
+            <th>Статус</th>
+            <th>Ответ почтового сервера</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for attempt in attempts %}
+        <tr>
+            <td>{{ attempt.id }}</td>
+            <td>{{ attempt.mailing.id }} - {{ attempt.mailing.get_status_display }}</td>
+            <td>{{ attempt.timestamp }}</td>
+            <td>{{ 'Успешно' if attempt.success else 'Не успешно' }}</td>
+            <td>{{ attempt.response }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5" class="text-center">Попыток рассылок нет</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

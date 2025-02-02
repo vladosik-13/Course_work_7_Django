@@ -1,11 +1,10 @@
 from django import forms
 from .models import Client, Message, Mailing
 
-
 class ClientForm(forms.ModelForm):
     class Meta:
         model = Client
-        fields = ["email", "name", "comment"]
+        fields = ["email", "name", "comment", "owner"]
 
     def __init__(self, *args, **kwargs):
         super(ClientForm, self).__init__(*args, **kwargs)
@@ -22,11 +21,12 @@ class ClientForm(forms.ModelForm):
             {"class": "form-control", "placeholder": "Введите комментарий"}
         )
 
+        self.fields["owner"].widget.attrs.update({"class": "form-control"})
 
 class MessageForm(forms.ModelForm):
     class Meta:
         model = Message
-        fields = ["subject", "text_message"]
+        fields = ["subject", "text_message", "owner"]
 
     def __init__(self, *args, **kwargs):
         super(MessageForm, self).__init__(*args, **kwargs)
@@ -39,6 +39,7 @@ class MessageForm(forms.ModelForm):
             {"class": "form-control", "placeholder": "Текст сообщения"}
         )
 
+        self.fields["owner"].widget.attrs.update({"class": "form-control"})
 
 class MailingForm(forms.ModelForm):
     class Meta:

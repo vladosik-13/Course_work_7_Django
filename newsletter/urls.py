@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 
+
 urlpatterns = [
     path('', views.HomeView.as_view(), name='home'),
     path('mailings/', views.MailingListView.as_view(), name='mailing_list'),
@@ -19,5 +20,6 @@ urlpatterns = [
     path('messages/<int:pk>/', views.MessageDetailView.as_view(), name='message_detail'),
     path('messages/<int:pk>/update/', views.MessageUpdateView.as_view(), name='message_update'),
     path('messages/<int:pk>/delete/', views.MessageDeleteView.as_view(), name='message_delete'),
-    path('reports/', views.MailingReportView.as_view(), name='mailing_report'),  # Добавление маршрута для отчетов
+    path('reports/', views.MailingReportView.as_view(), name='mailing_report'),
+    path('attempts/', views.MailingAttemptListView.as_view(), name='mailing_attempt_list'),
 ]

@@ -7,6 +7,7 @@ class Client(models.Model):
     email = models.EmailField(unique=True, verbose_name="Email")
     name = models.CharField(max_length=200, verbose_name="ФИО")
     comment = models.TextField(max_length=500, verbose_name="Комментарий", blank=True)
+    owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='clients', verbose_name='Владелец')
 
     def __str__(self):
         return self.name
@@ -21,6 +22,7 @@ class Client(models.Model):
 class Message(models.Model):
     subject = models.CharField(max_length=255, verbose_name='Тема письма')
     text_message = models.TextField(verbose_name='Тело письма')
+    owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='messages', verbose_name='Владелец')
 
     def __str__(self):
         return self.subject
