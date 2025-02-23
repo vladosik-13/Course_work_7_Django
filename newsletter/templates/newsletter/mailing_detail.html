@@ -1,0 +1,48 @@
+{% extends 'newsletter/base.html' %}
+
+{% block title %}Рассылка {{ mailing.id }}{% endblock %}
+
+{% block content %}
+<header>
+    <h1>Рассылка {{ mailing.id }}</h1>
+    <a href="{% url 'mailing_list' %}" class="btn btn-secondary mb-3">Назад к списку рассылок</a>
+</header>
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Дата начала</h5>
+        <p class="card-text">{{ mailing.start_time }}</p>
+    </div>
+</div>
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Дата окончания</h5>
+        <p class="card-text">{{ mailing.end_time }}</p>
+    </div>
+</div>
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Статус</h5>
+        <p class="card-text">{{ mailing.get_status_display }}</p>
+    </div>
+</div>
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Сообщение</h5>
+        <p class="card-text">{{ mailing.message.subject }}</p>
+        <p class="card-text">{{ mailing.message.text_message }}</p>
+    </div>
+</div>
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Получатели</h5>
+        <ul>
+            {% for client in mailing.clients.all %}
+            <li>{{ client.name }} ({{ client.email }})</li>
+            {% empty %}
+            <li>Получателей нет</li>н
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+<a href="{% url 'mailing_send' mailing.id %}" class="btn btn-success mb-3">Отправить рассылку</a>
+{% endblock %}

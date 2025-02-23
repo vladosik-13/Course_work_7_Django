@@ -1,0 +1,54 @@
+{% extends 'newsletter/base.html' %}
+
+{% block title %}Отчеты по рассылкам{% endblock %}
+
+{% block content %}
+<header>
+    <h1>Отчеты по рассылкам</h1>
+    <a href="{% url 'home' %}" class="btn btn-secondary mb-3">Назад к главной</a>
+</header>
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Общее количество попыток</h5>
+        <p class="card-text">{{ total_attempts }}</p>
+    </div>
+</div>
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Успешных попыток</h5>
+        <p class="card-text">{{ successful_attempts }}</p>
+    </div>
+</div>
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Неуспешных попыток</h5>
+        <p class="card-text">{{ failed_attempts }}</p>
+    </div>
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Рассылка</th>
+            <th>Дата и время попытки</th>
+            <th>Статус</th>
+            <th>Ответ почтового сервера</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for attempt in attempts %}
+        <tr>
+            <td>{{ attempt.id }}</td>
+            <td>{{ attempt.mailing.id }} - {{ attempt.mailing.get_status_display }}</td>
+            <td>{{ attempt.timestamp }}</td>
+            <td>{{ 'Успешно' if attempt.success else 'Не успешно' }}</td>
+            <td>{{ attempt.response }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5" class="text-center">Попыток рассылок нет</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'newsletter/base.html' %}
+
+{% block title %}{{ form_title }}{% endblock %}
+
+{% block content %}
+<header>
+    <h1>{{ form_title }}</h1>
+    <a href="{% url 'client_list' %}" class="btn btn-secondary mb-3">Назад к списку клиентов</a>
+</header>
+<form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="{{ form.email.id_for_label }}">Email</label>
+        {{ form.email }}
+    </div>
+    <div class="form-group">
+        <label for="{{ form.name.id_for_label }}">Ф.И.О.</label>
+        {{ form.name }}
+    </div>
+    <div class="form-group">
+        <label for="{{ form.comment.id_for_label }}">Комментарий</label>
+        {{ form.comment }}
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>
+{% endblock %}

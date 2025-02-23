@@ -1,0 +1,24 @@
+{% extends 'newsletter/base.html' %}
+
+{% block title %}Сообщение {{ message.id }}{% endblock %}
+
+{% block content %}
+<header>
+    <h1>Сообщение {{ message.id }}</h1>
+    <a href="{% url 'message_list' %}" class="btn btn-secondary mb-3">Назад к списку сообщений</a>
+</header>
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Тема</h5>
+        <p class="card-text">{{ message.subject }}</p>
+    </div>
+</div>
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Текст</h5>
+        <p class="card-text">{{ message.text_message }}</p>
+    </div>
+</div>
+<a href="{% url 'message_update' message.id %}" class="btn btn-warning mb-3">Редактировать</a>
+<a href="{% url 'message_delete' message.id %}" class="btn btn-danger mb-3">Удалить</a>
+{% endblock %}

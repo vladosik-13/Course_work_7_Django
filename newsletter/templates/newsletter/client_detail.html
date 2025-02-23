@@ -1,0 +1,30 @@
+{% extends 'newsletter/base.html' %}
+
+{% block title %}Клиент {{ client.id }}{% endblock %}
+
+{% block content %}
+<header>
+    <h1>Клиент {{ client.id }}</h1>
+    <a href="{% url 'client_list' %}" class="btn btn-secondary mb-3">Назад к списку клиентов</a>
+</header>
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Email</h5>
+        <p class="card-text">{{ client.email }}</p>
+    </div>
+</div>
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">ФИО</h5>
+        <p class="card-text">{{ client.name }}</p>
+    </div>
+</div>
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Комментарий</h5>
+        <p class="card-text">{{ client.comment }}</p>
+    </div>
+</div>
+<a href="{% url 'client_update' client.id %}" class="btn btn-warning mb-3">Редактировать</a>
+<a href="{% url 'client_delete' client.id %}" class="btn btn-danger mb-3">Удалить</a>
+{% endblock %}

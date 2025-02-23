@@ -1,0 +1,36 @@
+{% extends 'newsletter/base.html' %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+<header>
+    <h1>Рассылки</h1>
+    <p>Добро пожаловать в сервис рассылок</p>
+</header>
+<div class="row">
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Всего рассылок</h5>
+                <p class="card-text">{{ total_mailings }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Активные рассылки</h5>
+                <p class="card-text">{{ active_mailings }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Уникальных получателей</h5>
+                <p class="card-text">{{ unique_clients }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
